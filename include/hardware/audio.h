@@ -263,6 +263,7 @@ struct audio_stream_out {
     int (*get_render_position)(const struct audio_stream_out *stream,
                                uint32_t *dsp_frames);
 
+#ifndef ICS_AUDIO_BLOB
 #ifdef QCOM_HARDWARE
     /**
      * start audio data rendering
@@ -283,12 +284,6 @@ struct audio_stream_out {
      * stop audio data rendering
      */
     int (*stop)(struct audio_stream_out *stream);
-
-    /**
-    * EOS notification from HAL to Flinger
-     */
-    int (*set_observer)(const struct audio_stream_out *stream,
-                               void *observer);
 #endif
 
     /**
@@ -297,6 +292,14 @@ struct audio_stream_out {
      */
     int (*get_next_write_timestamp)(const struct audio_stream_out *stream,
                                     int64_t *timestamp);
+#ifdef QCOM_HARDWARE
+    /**
+    * EOS notification from HAL to Flinger
+     */
+    int (*set_observer)(const struct audio_stream_out *stream,
+                               void *observer);
+#endif
+#endif
 
 };
 typedef struct audio_stream_out audio_stream_out_t;
